@@ -1,7 +1,7 @@
 {
 	"name": "fibonaccit",
 	"displayName": "FibonaccIt",
-	"description": "ReFormats the Code with Fibonacci-Indentions",
+	"description": "ReFormats the Code with Fibonacci-Indentions.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.36.0"
