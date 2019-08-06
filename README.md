@@ -1,65 +1,42 @@
 # fibonaccit README
 
-This is the README for your extension "fibonaccit". After writing up a brief description, we recommend including the following sections.
+This is the Readme for the FibonaccIt-VSCode extension.
 
-## Features
+# FibonaccIt
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+FibonaccIt is an Visual Studio Code Extension to apply an Fibonacci-Styled formatting to your code.
+  - Applies Code to active Window
+  - Reformats to (Visual Studio Code) Default-Settings, based on your language
+  
+![Sample layout after applying the code](TODO:Include Image)
 
-For example if there is an image subfolder under your extension project workspace:
+# How to run the tool
+When installing the Extension, there will be a new command on the right side of the files you opened in the editor.
+From here you can either format your code or reformat it to Visual Studio Code Default.
 
-\!\[feature X\]\(images/feature-x.png\)
+  
+# Changed Settings
+When running the FibonaccIt Command:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+TODO:Change Settings according to extension
 
-## Requirements
+| Setting | Value |
+| ------ | ------ |
+|  Options-->Text-Editor-->Basic-->Advanced-->"Pretty listing (reformatting) of code" | "Unchecked" |
+|  Options-->Text-Edtior-->All Langauges-->Tabstops | "Insert Spaces"  |
+  
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+When running the Reformatter Command:
 
-## Extension Settings
+| Setting | Value |
+| ------ | ------ |
+|  Options-->Text-Editor-->Basic-->Advanced-->"Pretty listing (reformatting) of code" | "Checked" |
+|  Options-->Text-Edtior-->All Langauges-->Tabstops | "Keep Tabstops"  |
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
 
-For example:
+# ToDo
+Implement handling of languages which require Indention, like Python
 
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+# Bugs/Features
+  - If you use this tool on code which requires Indention, like Python, the code will get unusable (but pretty looking, though) - looking into handling this sort of things  
+    The Reformatter won't work here! But you can revert (Ctrl+Z) these changes...
