@@ -1,7 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import * as envdte from 'envdte';
+import { isNumber } from 'util';
+import { link } from 'fs';
 
 const editor = vscode.window.activeTextEditor;
 
@@ -17,17 +18,30 @@ export function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('extension.FibonaccIt', () => {
-		// The code you place here will be executed every time your command is executed
+		// The code you place here will be executed every time your command is execute
 		let text = editor!.document.getText();
 		
-
-		//TODO GET INDENTSIZE FROM CURRENT VIEW
-		let indentsize : number = activeDoc.IndentSize;
+		let indentsize_threetype : any =  editor!.options.tabSize;
+		// set identsize to 1 to prevent errors on interpreting this TS - will be rewritten anyway if return is an integer
+		let indentsize : number = 1;
+		if (isNumber(indentsize_threetype)){
+			indentsize = indentsize_threetype;
+		}
+		else if (indentsize_threetype === String){
+			console.log("Error reading indentsize - return not an integer" + typeof(indentsize_threetype));
+			deactivate();
+		}
+		else{
+			console.log("Error reading indentsize - return not an integer:" + typeof(indentsize_threetype));
+			deactivate();
+		}
 		let indentdepth : number = 0;
 		let replaceText : string = "";
 
+		//Todo: Need to check how to read the input line by line
 		for (let line in text.split("\n")){
-			line = line.replace(String.fromCharCode(10),"");
+			console.log(line[0]);
+			line = line.replace(" ","");
 			indentdepth = (line.length - line.trimLeft.length) / indentsize;
 			let spacenumber = 0;
 			for (var i = indentdepth; i>=0; i-- ) {
@@ -37,16 +51,16 @@ export function activate(context: vscode.ExtensionContext) {
 			for (let i = spacenumber; i>=0; i--){
 				spaces += " ";
 			}
+
 			replaceText += spaces + line.trimLeft + "\n";
 		}
-
-
+		const fullRange = new vscode.Range(
+			editor!.document.positionAt(0),
+			editor!.document.positionAt(text.length - 1)
+		);
+		
 		//TODO: Write Text to window
-		// text = editor!.document.
-		
-		
-		// Display a message box to the user
-		vscode.window.showInformationMessage(text);
+		editor!.edit(builder => builder.replace(fullRange, replaceText));
 	});
 
 	let disposable2 = vscode.commands.registerCommand('extension.DisableFibonaccIt', () => {
