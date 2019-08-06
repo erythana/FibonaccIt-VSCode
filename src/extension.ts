@@ -31,13 +31,13 @@ export function activate(context: vscode.ExtensionContext) {
 			indentdepth = (line.length - line.trimLeft.length) / indentsize;
 			let spacenumber = 0;
 			for (var i = indentdepth; i>=0; i-- ) {
-				spacenumber += FibonaccIt(i)
+				spacenumber += FibonaccIt(i);
 			}
 			let spaces : string = "";
 			for (let i = spacenumber; i>=0; i--){
-				spaces = spaces + " ";
+				spaces += " ";
 			}
-			replaceText = replaceText + spaces + line.trimLeft + "\n";
+			replaceText += spaces + line.trimLeft + "\n";
 		}
 
 
