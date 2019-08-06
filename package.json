@@ -17,15 +17,26 @@
 		"commands": [
 			{
 				"command": "extension.FibonaccIt",
-				"title": "Run FibonaccIt"
+				"title": "-Run FibonaccIt-"
+			},
+			{
+				"command": "extension.DisableFibonaccIt",
+				"title": "-Reformat FibonaccIt-"
 			}
+			
 			
 		],
 		"menus": {
-		  "editor/title": [{
+		  "editor/title": [
+			{
+				"command": "extension.DisableFibonaccIt",
+				"group": "navigation@2"
+			},
+			{
 			  "command": "extension.FibonaccIt",
-			  "group": "navigation"
-		}]
+			  "group": "navigation@1"
+		}
+	]
 	  }
 	},
 	"scripts": {
