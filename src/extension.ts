@@ -1,16 +1,11 @@
 import * as vscode from 'vscode';
 import { isNumber, formatWithOptions } from 'util';
 
-
-const editor = vscode.window.activeTextEditor;
-//TODO: Find a way to reformat the text (before getting the content) and disable the "tab-indent" to use spaces instead
-
 export function activate(context: vscode.ExtensionContext) {
-
     console.log('Successfully activated the extension "FibonaccIt"');
 
     let disposable = vscode.commands.registerCommand('extension.FibonaccIt', () => {
-
+        const editor = vscode.window.activeTextEditor;
         //Change intendation to Spaces
         vscode.commands.executeCommand('editor.action.indentationToSpaces');
 
@@ -33,16 +28,16 @@ export function activate(context: vscode.ExtensionContext) {
             array_counter += 1;
 
             indentdepth = (line.length - (line.trimLeft().length)) / indentsize;
-
-            //Cheating a bit for better layout --> because the Fibonacci-Sequence for FN1 and FN2 would be the same value (1) we skip one (therefor increment by one)
             let spacenumber = 0;
             if (indentdepth >= 2) {
+                //Cheating a bit for better layout --> because the Fibonacci-Sequence for FN1 and FN2 would be the same value (1) we skip one (therefor increment by one)
                 spacenumber = FibonaccIt(indentdepth+1);
             }
             else {
                 spacenumber = FibonaccIt(indentdepth);
             }
            
+            //create the space-string for each line acording to the fibonacci-return
             let spaces : string = "";
             for (let i = spacenumber; i>0; i--){
                 spaces += " ";
@@ -54,23 +49,24 @@ export function activate(context: vscode.ExtensionContext) {
                 replaceText += spaces + line.trimLeft() + "\r\n";
             }
         }
+        //select everything in the document
         const fullRange = new vscode.Range(
             editor!.document.positionAt(0),
             editor!.document.positionAt(text.length)
         );
-        
+        //replace the selection by the replaced Text
         editor!.edit(builder => builder.replace(fullRange, replaceText));
     });
 
+    //Reformat only works when an formatter for the language is installed in VSCode. Not my job
     let disposable2 = vscode.commands.registerCommand('extension.DisableFibonaccIt', () => {
         vscode.commands.executeCommand('editor.action.formatDocument');
     });
-
     context.subscriptions.push(disposable);
 }
-// this method is called when your extension is deactivated
 export function deactivate() {}
 
+//Recursive function to return fibonacci-number
 export function FibonaccIt(int_number: number){
     if (int_number > 2)
     {
