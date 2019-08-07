@@ -20,13 +20,13 @@ export function activate(context: vscode.ExtensionContext) {
             console.log("Error reading indentsize - return not an integer:" + typeof (indentsize_threetype));
             deactivate();
         }
+        
         let indentdepth: number = 0;
         let replaceText: string = "";
-        let text_array: string[] = text.split("\r\n");
+        let text_array: string[] = text.split("\n");
         let array_counter: number = 0;
         for (let line of text_array) {
             array_counter += 1;
-
             indentdepth = (line.length - (line.trimLeft().length)) / indentsize;
             let spacenumber = 0;
             if (indentdepth >= 2) {
@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
             else {
                 spacenumber = FibonaccIt(indentdepth);
             }
-
+    
             //create the space-string for each line acording to the fibonacci-return
             let spaces: string = "";
             for (let i = spacenumber; i > 0; i--) {
