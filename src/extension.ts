@@ -2,13 +2,13 @@ import * as vscode from 'vscode';
 import { isNumber, formatWithOptions } from 'util';
 
 export function activate(context: vscode.ExtensionContext) {
-    
+
     console.log('Successfully activated the extension "FibonaccIt"');
-    let disposable = vscode.commands.registerCommand('extension.FibonaccIt', () => {
+    let disposable = vscode.commands.registerCommand('extension.FibonaccIt', async () => {
         const editor = vscode.window.activeTextEditor;
         //Change intendation to Spaces
-        vscode.commands.executeCommand('editor.action.formatDocument');
-        vscode.commands.executeCommand('editor.action.indentationToSpaces');
+        await vscode.commands.executeCommand('editor.action.formatDocument');
+        await vscode.commands.executeCommand('editor.action.indentationToSpaces');
 
         let text = editor!.document.getText();
         let indentsize_threetype: any = editor!.options.tabSize;
@@ -60,8 +60,8 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     //Reformat only works when an formatter for the language is installed in VSCode. Not my job
-    let disposable2 = vscode.commands.registerCommand('extension.DisableFibonaccIt', () => {
-        vscode.commands.executeCommand('editor.action.formatDocument');
+    let disposable2 = vscode.commands.registerCommand('extension.DisableFibonaccIt', async () => {
+        await vscode.commands.executeCommand('editor.action.formatDocument');
     });
     context.subscriptions.push(disposable);
 }
