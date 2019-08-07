@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
 import { isNumber, formatWithOptions } from 'util';
+import * as lint from 'tslint';
+
 
 const editor = vscode.window.activeTextEditor;
-
 //TODO: Find a way to reformat the text (before getting the content) and disable the "tab-indent" to use spaces instead
 
 export function activate(context: vscode.ExtensionContext) {
@@ -26,7 +27,16 @@ export function activate(context: vscode.ExtensionContext) {
 		let array_counter : number = 0;
 		for (let line of text_array){
 			array_counter += 1;
+			
+			// Set spaces instead of tabs, according to identsize
+			let leadingspaces : string = "";
+			for (let i = 1; i<=indentsize; i++){
+				leadingspaces += " ";
+			}
+			
+			//TODO: Fix indentdepth on lines where there is a leading space (... but only when there are leading tabs?!)
 			indentdepth = (line.length - (line.trimLeft().length)) / indentsize;
+			console.log(indentdepth)
 			let spacenumber = 0;
 			for (var i = indentdepth; i>0; i-- ) {
 				spacenumber += FibonaccIt(i);
@@ -41,7 +51,6 @@ export function activate(context: vscode.ExtensionContext) {
 			else{
 				replaceText += spaces + line.trimLeft() + "\r\n";
 			}
-			
 		}
 		const fullRange = new vscode.Range(
 			editor!.document.positionAt(0),
