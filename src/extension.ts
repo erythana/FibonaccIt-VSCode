@@ -10,42 +10,42 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.commands.executeCommand('editor.action.indentationToSpaces');
 
         let text = editor!.document.getText();
-        let indentsize_threetype : any =  editor!.options.tabSize;
+        let indentsize_threetype: any = editor!.options.tabSize;
         // set identsize to 1 to prevent errors on interpreting this TS - will be rewritten anyway if return is an integer
-        let indentsize : number = 1;
-        if (isNumber(indentsize_threetype)){
+        let indentsize: number = 1;
+        if (isNumber(indentsize_threetype)) {
             indentsize = indentsize_threetype;
         }
-        else{
-            console.log("Error reading indentsize - return not an integer:" + typeof(indentsize_threetype));
+        else {
+            console.log("Error reading indentsize - return not an integer:" + typeof (indentsize_threetype));
             deactivate();
         }
-        let indentdepth : number = 0;
-        let replaceText : string = "";
-        let text_array : string[] = text.split("\r\n");
-        let array_counter : number = 0;
-        for (let line of text_array){
+        let indentdepth: number = 0;
+        let replaceText: string = "";
+        let text_array: string[] = text.split("\r\n");
+        let array_counter: number = 0;
+        for (let line of text_array) {
             array_counter += 1;
 
             indentdepth = (line.length - (line.trimLeft().length)) / indentsize;
             let spacenumber = 0;
             if (indentdepth >= 2) {
                 //Cheating a bit for better layout --> because the Fibonacci-Sequence for FN1 and FN2 would be the same value (1) we skip one (therefor increment by one)
-                spacenumber = FibonaccIt(indentdepth+1);
+                spacenumber = FibonaccIt(indentdepth + 1);
             }
             else {
                 spacenumber = FibonaccIt(indentdepth);
             }
-           
+
             //create the space-string for each line acording to the fibonacci-return
-            let spaces : string = "";
-            for (let i = spacenumber; i>0; i--){
+            let spaces: string = "";
+            for (let i = spacenumber; i > 0; i--) {
                 spaces += " ";
             }
-            if (array_counter === text_array.length){
+            if (array_counter === text_array.length) {
                 replaceText += spaces + line.trimLeft();
             }
-            else{
+            else {
                 replaceText += spaces + line.trimLeft() + "\r\n";
             }
         }
@@ -64,20 +64,17 @@ export function activate(context: vscode.ExtensionContext) {
     });
     context.subscriptions.push(disposable);
 }
-export function deactivate() {}
+export function deactivate() { }
 
 //Recursive function to return fibonacci-number
-export function FibonaccIt(int_number: number){
-    if (int_number > 2)
-    {
+export function FibonaccIt(int_number: number) {
+    if (int_number > 2) {
         int_number = FibonaccIt(int_number - 1) + FibonaccIt(int_number - 2);
     }
-    else if (int_number > 0)
-    {
+    else if (int_number > 0) {
         int_number = 1;
     }
-    else
-    {
+    else {
         int_number = 0;
     }
     return int_number;
