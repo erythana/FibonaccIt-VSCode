@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import { isNumber, formatWithOptions } from 'util';
-import * as lint from 'tslint';
 
 
 const editor = vscode.window.activeTextEditor;
