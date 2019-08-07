@@ -2,7 +2,7 @@
 	"name": "fibonaccit",
 	"displayName": "FibonaccIt",
 	"description": "ReFormats the Code with Fibonacci-Indentions",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"publisher": "Erythana",
 	"engines": {
 		"vscode": "^1.36.0"
@@ -24,21 +24,19 @@
 				"command": "extension.DisableFibonaccIt",
 				"title": "-Reformat FibonaccIt-"
 			}
-			
-			
 		],
 		"menus": {
-		  "editor/title": [
-			{
-				"command": "extension.DisableFibonaccIt",
-				"group": "navigation@2"
-			},
-			{
-			  "command": "extension.FibonaccIt",
-			  "group": "navigation@1"
+			"editor/title": [
+				{
+					"command": "extension.DisableFibonaccIt",
+					"group": "navigation@2"
+				},
+				{
+					"command": "extension.FibonaccIt",
+					"group": "navigation@1"
+				}
+			]
 		}
-	]
-	  }
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
