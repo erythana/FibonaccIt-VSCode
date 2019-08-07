@@ -2,7 +2,7 @@
     "name": "fibonaccit-vscode",
     "displayName": "FibonaccIt",
     "description": "ReFormats the Code with Fibonacci-Indentions",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "publisher": "Erythana",
     "engines": {
         "vscode": "^1.36.0"
