@@ -2,11 +2,12 @@ import * as vscode from 'vscode';
 import { isNumber, formatWithOptions } from 'util';
 
 export function activate(context: vscode.ExtensionContext) {
+    
     console.log('Successfully activated the extension "FibonaccIt"');
-
     let disposable = vscode.commands.registerCommand('extension.FibonaccIt', () => {
         const editor = vscode.window.activeTextEditor;
         //Change intendation to Spaces
+        vscode.commands.executeCommand('editor.action.formatDocument');
         vscode.commands.executeCommand('editor.action.indentationToSpaces');
 
         let text = editor!.document.getText();
@@ -20,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
             console.log("Error reading indentsize - return not an integer:" + typeof (indentsize_threetype));
             deactivate();
         }
-        
+
         let indentdepth: number = 0;
         let replaceText: string = "";
         let text_array: string[] = text.split("\n");
@@ -36,7 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
             else {
                 spacenumber = FibonaccIt(indentdepth);
             }
-    
+
             //create the space-string for each line acording to the fibonacci-return
             let spaces: string = "";
             for (let i = spacenumber; i > 0; i--) {
