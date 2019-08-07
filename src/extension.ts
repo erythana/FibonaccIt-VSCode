@@ -34,10 +34,16 @@ export function activate(context: vscode.ExtensionContext) {
             array_counter += 1;
 
             indentdepth = (line.length - (line.trimLeft().length)) / indentsize;
+
+            //Cheating a bit for better layout --> because the Fibonacci-Sequence for FN1 and FN2 would be the same value (1) we skip one (therefor increment by one)
             let spacenumber = 0;
-            for (var i = indentdepth; i>0; i--) {
-                spacenumber += FibonaccIt(i);
+            if (indentdepth >= 2) {
+                spacenumber = FibonaccIt(indentdepth+1);
             }
+            else {
+                spacenumber = FibonaccIt(indentdepth);
+            }
+           
             let spaces : string = "";
             for (let i = spacenumber; i>0; i--){
                 spaces += " ";
@@ -65,7 +71,6 @@ export function activate(context: vscode.ExtensionContext) {
 }
 // this method is called when your extension is deactivated
 export function deactivate() {}
-
 
 export function FibonaccIt(int_number: number){
     if (int_number > 2)
