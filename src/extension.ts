@@ -6,7 +6,10 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('Successfully activated the extension "FibonaccIt"');
     let disposable = vscode.commands.registerCommand('extension.FibonaccIt', async () => {
         const editor = vscode.window.activeTextEditor;
-        //Change intendation to Spaces
+
+        vscode.window.showInformationMessage('Running FibonaccIt-Formatter');
+
+        //Change intendation to Spaces, preformat the text so we dont terminate spaces (indention-size would get smaller and smaller)
         await vscode.commands.executeCommand('editor.action.formatDocument');
         await vscode.commands.executeCommand('editor.action.indentationToSpaces');
 
@@ -18,7 +21,8 @@ export function activate(context: vscode.ExtensionContext) {
             indentsize = indentsize_threetype;
         }
         else {
-            console.log("Error reading indentsize - return not an integer:" + typeof (indentsize_threetype));
+            //should not happen anyway but better safe than sorry
+            vscode.window.showInformationMessage('Error reading indentsize - return not an integer: ' + typeof (indentsize_threetype));
             deactivate();
         }
 
@@ -43,11 +47,13 @@ export function activate(context: vscode.ExtensionContext) {
             for (let i = spacenumber; i > 0; i--) {
                 spaces += " ";
             }
+
+            //append each line to the replace-text, including the spaces on front of the line - last line will get no linebreak
             if (array_counter === text_array.length) {
                 replaceText += spaces + line.trimLeft();
             }
             else {
-                replaceText += spaces + line.trimLeft() + "\r\n";
+                replaceText += spaces + line.trimLeft() + "\n";
             }
         }
         //select everything in the document
@@ -61,6 +67,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     //Reformat only works when an formatter for the language is installed in VSCode. Not my job
     let disposable2 = vscode.commands.registerCommand('extension.DisableFibonaccIt', async () => {
+        vscode.window.showInformationMessage('Running FibonaccIt-Reformatter');
         await vscode.commands.executeCommand('editor.action.formatDocument');
     });
     context.subscriptions.push(disposable);
