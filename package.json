@@ -1,64 +1,57 @@
 {
-    "name": "fibonaccit-vscode",
-    "displayName": "FibonaccIt",
-    "description": "ReFormats the Code with Fibonacci-Indentions",
-    "version": "1.0.5",
-    "publisher": "Erythana",
-    "engines": {
-        "vscode": "^1.36.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "onCommand:extension.FibonaccIt"
-    ],
-    "main": "./out/extension.js",
-    "contributes": {
-        "commands": [
+  "name": "fibonaccit",
+  "displayName": "FibonaccIt",
+  "description": "FibonaccIt is an Visual Studio Code Extension to apply an Fibonacci-Styled formatting to your code.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.94.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+     "commands": [
             {
-                "command": "extension.FibonaccIt",
-                "title": "-Run FibonaccIt-"
+                "command": "fibonaccit.FibonaccIt",
+                "title": "FibonaccIt: Run"
             },
             {
-                "command": "extension.DisableFibonaccIt",
-                "title": "-Reformat FibonaccIt-"
+                "command": "fibonaccit.DisableFibonaccIt",
+                "title": "FibonaccIt: Reformat"
             }
         ],
         "menus": {
             "editor/title": [
                 {
-                    "command": "extension.DisableFibonaccIt",
+                    "command": "fibonaccit.DisableFibonaccIt",
                     "group": "navigation@2"
                 },
                 {
-                    "command": "extension.FibonaccIt",
+                    "command": "fibonaccit.FibonaccIt",
                     "group": "navigation@1"
                 }
             ]
         }
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "pretest": "npm run compile",
-        "test": "node ./out/test/runTest.js"
-    },
-    "devDependencies": {
-        "@types/glob": "^7.1.1",
-        "@types/mocha": "^5.2.6",
-        "@types/node": "^10.12.21",
-        "@types/vscode": "^1.36.0",
-        "glob": "^7.1.4",
-        "mocha": "^10.1.0",
-        "typescript": "^3.3.1",
-        "tslint": "^5.12.1",
-        "vscode-test": "^1.0.2"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/erythana/FibonaccIt-VSCode.git"
-    },
-    "license": "MIT"
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.94.0",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "eslint": "^9.13.0",
+    "typescript": "^5.6.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
 }

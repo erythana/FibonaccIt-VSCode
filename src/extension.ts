@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
-import { isNumber, formatWithOptions } from 'util';
 
 export function activate(context: vscode.ExtensionContext) {
 
     console.log('Successfully activated the extension "FibonaccIt"');
-    let disposable = vscode.commands.registerCommand('extension.FibonaccIt', async () => {
+
+    let disposable = vscode.commands.registerCommand('fibonaccit.FibonaccIt', async () => {
         const editor = vscode.window.activeTextEditor;
 
         vscode.window.showInformationMessage('Running FibonaccIt-Formatter');
@@ -13,77 +13,73 @@ export function activate(context: vscode.ExtensionContext) {
         await vscode.commands.executeCommand('editor.action.formatDocument');
         await vscode.commands.executeCommand('editor.action.indentationToSpaces');
 
-        let text = editor!.document.getText();
-        let indentsize_threetype: any = editor!.options.tabSize;
-        // set identsize to 1 to prevent errors on interpreting this TS - will be rewritten anyway if return is an integer
-        let indentsize: number = 1;
-        if (isNumber(indentsize_threetype)) {
-            indentsize = indentsize_threetype;
+        
+        if (!editor) {
+            vscode.window.showErrorMessage('No active editor found');
+			deactivate();
+            return;
         }
-        else {
-            //should not happen anyway but better safe than sorry
-            vscode.window.showInformationMessage('Error reading indentsize - return not an integer: ' + typeof (indentsize_threetype));
+		        
+        let spaceIdentationCount: unknown = editor.options.tabSize;
+        if (typeof spaceIdentationCount !== 'number' || spaceIdentationCount === 0) {
+            vscode.window.showErrorMessage(`Invalid tab size: ${spaceIdentationCount}. Expecting a number.`);
             deactivate();
+			return;
         }
 
-        let indentdepth: number = 0;
-        let replaceText: string = "";
-        let text_array: string[] = text.split("\n");
-        let array_counter: number = 0;
-        for (let line of text_array) {
-            array_counter += 1;
-            indentdepth = (line.length - (line.trimLeft().length)) / indentsize;
-            let spacenumber = 0;
-            if (indentdepth >= 2) {
-                //Cheating a bit for better layout --> because the Fibonacci-Sequence for FN1 and FN2 would be the same value (1) we skip one (therefor increment by one)
-                spacenumber = FibonaccIt(indentdepth + 1);
-            }
-            else {
-                spacenumber = FibonaccIt(indentdepth);
-            }
+		let eol = editor!.document.eol === vscode.EndOfLine.LF ? '\n' : '\r\n';
+        let text: string = editor!.document.getText();
+        let editorText: string[] = text.split(eol);
+        let replaceLines: string[] = [];
+        let indentDepth: number = 0;
 
-            //create the space-string for each line acording to the fibonacci-return
-            let spaces: string = "";
-            for (let i = spacenumber; i > 0; i--) {
-                spaces += " ";
-            }
+        for (let i = 0; i < editorText.length; i++){
+            let line = editorText[i];
 
-            //append each line to the replace-text, including the spaces on front of the line - last line will get no linebreak
-            if (array_counter === text_array.length) {
-                replaceText += spaces + line.trimLeft();
-            }
-            else {
-                replaceText += spaces + line.trimLeft() + "\n";
-            }
+            indentDepth = (line.length - (line.trimStart().length)) / spaceIdentationCount;
+            let spaceCount = Number(fibonaccIt(indentDepth + 1)); // idc if someone uses so many identations that a cast to number overflows^^
+
+            let spaces = " ".repeat(spaceCount);
+			replaceLines.push(spaces + line.trimStart());
         }
+
         //select everything in the document
         const fullRange = new vscode.Range(
             editor!.document.positionAt(0),
             editor!.document.positionAt(text.length)
         );
-        //replace the selection by the replaced Text
-        editor!.edit(builder => builder.replace(fullRange, replaceText));
+        editor.edit(builder => builder.replace(fullRange, replaceLines.join(eol)));
     });
 
     //Reformat only works when an formatter for the language is installed in VSCode. Not my job
-    let disposable2 = vscode.commands.registerCommand('extension.DisableFibonaccIt', async () => {
-        vscode.window.showInformationMessage('Running FibonaccIt-Reformatter');
+    let disposable2 = vscode.commands.registerCommand('fibonaccit.DisableFibonaccIt', async () => {
+        vscode.window.showInformationMessage('Rerformatting document');
         await vscode.commands.executeCommand('editor.action.formatDocument');
     });
-    context.subscriptions.push(disposable);
+    context.subscriptions.push(disposable, disposable2);
 }
-export function deactivate() { }
 
-//Recursive function to return fibonacci-number
-export function FibonaccIt(int_number: number) {
-    if (int_number > 2) {
-        int_number = FibonaccIt(int_number - 1) + FibonaccIt(int_number - 2);
-    }
-    else if (int_number > 0) {
-        int_number = 1;
-    }
+export function deactivate(){}
+
+function fibonaccIt(sequence: number): bigint {
+
+    let fibonnaciNumber = 0n;
+
+    if (sequence <= 1)
+        fibonnaciNumber = 0n;
     else {
-        int_number = 0;
+        let previousFib = 0n;
+        let currentFib = 1n;
+
+        for (let i = 2; i <= sequence; i++) {
+    
+            let tmp = previousFib;
+            previousFib = currentFib;
+
+            currentFib = previousFib + tmp;
+        }
+        fibonnaciNumber = currentFib;
     }
-    return int_number;
+
+    return fibonnaciNumber;
 }
